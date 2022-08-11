@@ -1,10 +1,10 @@
 import './ExpenseDate.css';
 
-interface Calendar {
+interface ExpenseDateProps {
   date: Date;
 }
 
-export default function ExpenseDate({ date }: Calendar) {
+export default function ExpenseDate({ date }: ExpenseDateProps) {
   const month = date.toLocaleString(`en-US`, { month: `long` });
   const year = date.getFullYear();
   const day = date.toLocaleString(`en-Us`, { day: `2-digit` });

@@ -1,15 +1,22 @@
-import { useState, ChangeEvent, SyntheticEvent } from 'react';
+import {
+  useState,
+  ChangeEvent,
+  SyntheticEvent,
+  MouseEventHandler
+} from 'react';
 import './ExpenseForm.css';
 
 type ChangeEventType = ChangeEvent<HTMLInputElement>;
 
-interface OnSaveExpenseDataType {
+interface ExpenseFormProps {
   onSaveExpenseData: Function;
+  onCancel: MouseEventHandler<HTMLButtonElement>;
 }
 
 export default function ExpenseForm({
-  onSaveExpenseData
-}: OnSaveExpenseDataType) {
+  onSaveExpenseData,
+  onCancel
+}: ExpenseFormProps) {
   const [getTitle, setTitle] = useState('');
   const [getAmount, setAmount] = useState('');
   const [getDate, setDate] = useState('');
@@ -36,7 +43,7 @@ export default function ExpenseForm({
 
     const expenseData = {
       title: getTitle,
-      amount: getAmount,
+      amount: +getAmount,
       date: new Date(getDate)
     };
 
@@ -86,6 +93,9 @@ export default function ExpenseForm({
         </div>
       </div>
       <div className="new-expense__actions">
+        <button type="button" onClick={onCancel}>
+          Cancel
+        </button>
         <button type="submit">Add Expense</button>
       </div>
     </form>

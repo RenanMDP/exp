@@ -1,11 +1,15 @@
+import { useState } from 'react';
+
 import ExpenseForm from './ExpenseForm';
 import './NewExpense.css';
 
-interface OnAddExpenseType {
+interface NewExpenseProps {
   onAddExpense: Function;
 }
 
-export default function NewExpense({ onAddExpense }: OnAddExpenseType) {
+export default function NewExpense({ onAddExpense }: NewExpenseProps) {
+  const [isEditing, setIsEditing] = useState(false);
+
   function saveExpenseDataHandler(formExpenseData: object) {
     const expenseData = {
       ...formExpenseData,
@@ -13,12 +17,27 @@ export default function NewExpense({ onAddExpense }: OnAddExpenseType) {
     };
 
     onAddExpense(expenseData);
-    console.log(expenseData);
+    setIsEditing(false);
+  }
+
+  function startEditingHandler() {
+    setIsEditing(true);
+  }
+
+  function stopEditingHandler() {
+    setIsEditing(false);
   }
 
   return (
     <div className="new-expense">
-      <ExpenseForm onSaveExpenseData={saveExpenseDataHandler} />
+      {isEditing ? (
+        <ExpenseForm
+          onSaveExpenseData={saveExpenseDataHandler}
+          onCancel={stopEditingHandler}
+        />
+      ) : (
+        <button onClick={startEditingHandler}>Add New Expense</button>
+      )}
     </div>
   );
 }
